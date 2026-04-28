@@ -1,19 +1,12 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.9.9-eclipse-temurin-17'
+            image 'maven:3.9.9-eclipse-temurin-21'
             args '-v maven-repo:/root/.m2'
         }
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/sourabhgorule21/jenkins-demo.git'
-            }
-        }
-
         stage('Build Maven') {
             steps {
                 sh 'mvn -B clean package'
