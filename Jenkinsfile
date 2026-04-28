@@ -1,21 +1,19 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.9-eclipse-temurin-17'
-        }
-    }
+    agent any
 
     stages {
-        stage('Build') {
+
+        stage('Checkout') {
             steps {
-                sh 'mvn -B clean package'
+                git 'https://github.com/sourabhgorule21/jenkins-demo.git'
             }
         }
-    }
 
-    post {
-        always {
-            echo 'Build completed'
+        stage('Verify') {
+            steps {
+                sh 'echo "Jenkins is working"'
+                sh 'ls -la'
+            }
         }
     }
 }
