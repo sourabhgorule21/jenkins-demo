@@ -1,30 +1,23 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.9.9-eclipse-temurin-17'
+            args '-v maven-repo:/root/.m2'
+        }
+    }
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'mvn -B clean package'
-                    } else {
-                        bat 'mvn -B clean package'
-                    }
-                }
+                sh 'mvn -B clean package'
             }
         }
     }
 
     post {
         always {
-            junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
-            archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
+            junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+            archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/*.jar'
         }
     }
 }
