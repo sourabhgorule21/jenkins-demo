@@ -1,11 +1,15 @@
 pipeline {
     agent any
 
-    stages {
+    options {
+        skipDefaultCheckout(true)
+    }
 
+    stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/sourabhgorule21/jenkins-demo.git'
+                git branch: 'main',
+                    url: 'https://github.com/sourabhgorule21/jenkins-demo.git'
             }
         }
 
