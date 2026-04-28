@@ -13,11 +13,16 @@ pipeline {
             }
         }
 
-        stage('Verify') {
+        stage('Build Maven') {
             steps {
-                sh 'echo "Jenkins is working"'
-                sh 'ls -la'
+                sh 'mvn -B clean package'
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Build completed'
         }
     }
 }
